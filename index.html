@@ -6,6 +6,13 @@
 <title>Daily Log</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <style>
+  @font-face {
+    font-family: 'Mulmaru';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-4@1.1/Mulmaru.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+  }
+
 :root{
   --bg:#0b0b0d; --bg2:#1c1b1f; --line:#333237; --ink:#f2f1ee; --ink-soft:#96949a;
   --lime:#62ED5B;
@@ -21,6 +28,8 @@ a{color:inherit;text-decoration:none}
 .eyebrow{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.2em;color:var(--lime);text-transform:uppercase;margin-bottom:var(--sp3)}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
+/* 포인트 폰트: Mulmaru (굵기 400 한 종류라 faux bold 방지를 위해 font-weight:400) */
+.logo,.hero-copy h1,.sec-title,.about-main h2,.contact-copy h2{font-family:'Mulmaru','Pretendard',sans-serif;font-weight:400}
 .btn{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:13px 24px;border-radius:999px}
 .btn-lime{background:var(--lime);color:#141210}
 .btn-ghost{border:1px solid var(--line);color:var(--ink)}
