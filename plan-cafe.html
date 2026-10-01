@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기획서 — 홈카페 레시피 검색 서비스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --board:#2c4538; --board-deep:#223629; --chalk:#e9efe6;
+  --brown:#6b4426; --brown-deep:#4a2d18; --coffee:#8a5a35;
+  --cream:#f7efe2; --beige:#e6d5b8; --beige-2:#f1e5d0; --line:#e3d3b8;
+  --ink:#2b1d14; --ink-soft:#7a6552;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--board)}
+body{font-family:'Pretendard',-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--board);color:var(--ink);line-height:1.75;font-size:16px;word-break:keep-all;overflow-wrap:break-word;padding:clamp(12px,3vw,32px)}
+
+/* 크림색 큰 패널 (칠판 위에 올린 메뉴판 느낌) */
+.panel{max-width:960px;margin:0 auto;background:var(--cream);border-radius:64px 120px 72px 140px / 90px 70px 120px 80px;padding:32px clamp(22px,5vw,64px) 56px;position:relative;overflow:hidden}
+
+/* 상단 알약 내비 */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:56px}
+.brand{font-size:20px;font-weight:900;letter-spacing:-.03em;color:var(--brown-deep)}
+.brand b{color:var(--board)}
+.pillnav{display:flex;gap:6px;background:#fff;border-radius:999px;padding:8px 10px;box-shadow:0 2px 10px rgba(74,45,24,.08)}
+.pillnav span{font-size:12.5px;font-weight:600;padding:6px 14px;border-radius:999px;color:var(--brown)}
+.pillnav span.on{background:var(--board);color:var(--chalk)}
+.sparkle{position:absolute;color:var(--board);font-weight:300;line-height:1;pointer-events:none;opacity:.7}
+
+/* 히어로 */
+.hero{position:relative;padding:8px 0 48px;text-align:center}
+.hero .eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--board);margin-bottom:6px}
+.hero .big{display:block;font-size:clamp(46px,12vw,116px);font-weight:900;letter-spacing:-.045em;line-height:1;color:var(--brown)}
+.hero .ghost{display:block;font-size:clamp(56px,15vw,148px);font-weight:900;letter-spacing:-.045em;line-height:.9;color:var(--beige);margin-top:-.12em;user-select:none}
+.hero h1{font-size:clamp(17px,2.6vw,22px);font-weight:800;margin-top:22px;color:var(--brown-deep)}
+.hero p{color:var(--ink-soft);font-size:14.5px;max-width:480px;margin:8px auto 0}
+.hero .search{display:flex;align-items:center;gap:10px;max-width:420px;margin:26px auto 0;background:#fff;border:2px solid var(--board);border-radius:999px;padding:10px 12px 10px 22px;text-align:left;font-size:13.5px;color:var(--ink-soft)}
+.hero .search span{flex:1}
+.hero .search b{background:var(--board);color:var(--chalk);font-size:12.5px;padding:7px 16px;border-radius:999px}
+
+/* 본문 문서 */
+.doc{background:#fff;border-radius:36px;padding:44px clamp(22px,4.5vw,52px);box-shadow:0 10px 30px rgba(74,45,24,.08)}
+.doc .doctitle{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--board);margin-bottom:6px}
+.doc h2{font-size:26px;font-weight:900;letter-spacing:-.02em;margin-bottom:4px;color:var(--brown-deep)}
+.doc .subtitle{font-size:14.5px;color:var(--ink-soft);margin-bottom:34px}
+.sec{margin-bottom:34px}
+.sec:last-child{margin-bottom:0}
+.sec h3{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;letter-spacing:.02em;margin-bottom:14px;background:var(--board);color:var(--chalk);padding:6px 16px;border-radius:999px}
+.sec p{font-size:14.5px;margin-bottom:8px}
+.sec p:last-child{margin-bottom:0}
+.sec ul{list-style:none;font-size:14.5px}
+.sec li{margin-bottom:8px;padding-left:22px;position:relative}
+.sec li::before{content:'+';position:absolute;left:2px;top:0;color:var(--coffee);font-weight:800}
+.sec li:last-child{margin-bottom:0}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.minicard{background:var(--beige-2);border-radius:22px;padding:16px 20px}
+.minicard .lbl{font-size:11px;font-weight:800;color:var(--coffee);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.minicard .val{font-size:14px}
+.reflink{display:block;color:inherit;text-decoration:none;transition:background .2s}
+.reflink:hover{background:var(--beige)}
+.reflink .url{display:block;margin-top:6px;font-size:12px;font-weight:700;color:var(--board);word-break:break-all}
+.swatches{display:flex;gap:6px;margin-top:10px}
+.swatches i{display:block;width:24px;height:24px;border-radius:50%;border:1px solid rgba(0,0,0,.1)}
+
+.feattable{width:100%;border-collapse:collapse;font-size:13.5px}
+.feattable th{text-align:left;font-size:11px;font-weight:800;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;border-bottom:2px solid var(--board)}
+.feattable td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.feattable tr:last-child td{border-bottom:none}
+.feattable .fname{font-weight:800;white-space:nowrap;color:var(--brown-deep)}
+.prio{display:inline-block;font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.prio.high{background:var(--board);color:var(--chalk)}
+.prio.mid{background:var(--beige);color:var(--brown)}
+
+/* 상세 화면에 들어갈 정보 칩 */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chips span{font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:999px;background:var(--beige-2);color:var(--brown)}
+
+.foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:40px;gap:16px;font-size:13px;line-height:1.4;color:var(--brown)}
+.foot b{font-size:15px;font-weight:900;color:var(--brown-deep)}
+.foot b i{font-style:normal;color:var(--board)}
+
+@media(max-width:640px){
+  .panel{border-radius:40px 64px 44px 72px / 56px 44px 64px 48px}
+  .topbar{margin-bottom:36px}
+  .pillnav{display:none}
+  .twocol{grid-template-columns:1fr}
+  .doc{border-radius:28px}
+}
+</style>
+</head>
+<body>
+
+<main class="panel">
+  <span class="sparkle" style="top:120px;right:7%;font-size:30px">✦</span>
+  <span class="sparkle" style="top:46%;left:2.5%;font-size:26px">+</span>
+
+  <div class="topbar">
+    <div class="brand">home cafe<b>.</b></div>
+    <nav class="pillnav"><span class="on">Home</span><span>Menu</span><span>Search</span><span>About</span></nav>
+    <div style="width:40px"></div>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">Project Plan · 기획서</div>
+    <span class="big">home cafe</span>
+    <span class="ghost">recipe</span>
+    <h1>카페 음료 레시피 검색 서비스 기획서</h1>
+    <p>카페에서 마시던 음료를 집에서 만들 수 있도록, 재료와 만드는 법을 검색해서 알려주는 서비스입니다.</p>
+    <div class="search"><span>마시고 싶은 음료를 검색해보세요</span><b>검색</b></div>
+  </header>
+
+  <div class="doc">
+    <div class="doctitle">Project Plan</div>
+    <h2>Home Cafe — 집에서 만드는 카페 음료</h2>
+    <div class="subtitle">카페 음료 레시피를 검색하고, 재료와 만드는 법까지 한 번에 확인하는 앱</div>
+
+    <div class="sec">
+      <h3>01. 기획 배경</h3>
+      <p>'딸기 칵테일'을 검색하면 딸기로 만든 칵테일이 한꺼번에 나오고, 메뉴를 누르면 필요한 재료와 제조 방법, 칼로리까지 볼 수 있는 앱(Tipsy)이 있습니다. 이 구조가 레시피를 찾는 사람에게 아주 편하다고 느꼈습니다.</p>
+      <p>이 방식을 카페 음료에 적용해, 집에서 카페 음료를 만들어 마시고 싶을 때 검색 한 번으로 레시피를 알아볼 수 있는 서비스를 만들고 싶습니다.</p>
+    </div>
+
+    <div class="sec">
+      <h3>02. 누가 보나요</h3>
+      <div class="twocol">
+        <div class="minicard">
+          <div class="lbl">보는 사람</div>
+          <div class="val">카페 음료를 집에서 만들어 마시고 싶은 사람, 카페 비용을 아끼고 싶은 사람, 홈카페를 막 시작한 입문자</div>
+        </div>
+        <div class="minicard">
+          <div class="lbl">보여주고 싶은 것</div>
+          <div class="val">음료별 필요한 재료, 만드는 순서, 칼로리와 난이도를 한눈에 볼 수 있는 레시피</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h3>03. 디자인 방향</h3>
+      <div class="twocol">
+        <div class="minicard">
+          <div class="lbl">사이트명 / 로고</div>
+          <div class="val">home cafe. (집 + 카페. 소문자 텍스트 로고, 마침표만 칠판 그린 포인트)</div>
+        </div>
+        <div class="minicard">
+          <div class="lbl">메인 컬러</div>
+          <div class="val">브라운(#6b4426) + 베이지/크림(#f7efe2) 바탕, 칠판 그린(#2c4538)을 포인트로
+            <div class="swatches"><i style="background:#2c4538"></i><i style="background:#6b4426"></i><i style="background:#e6d5b8"></i><i style="background:#f7efe2"></i></div>
+          </div>
+        </div>
+        <div class="minicard">
+          <div class="lbl">레이아웃 분위기</div>
+          <div class="val">칠판 같은 진한 초록 배경 위에 물결 모양 크림 패널을 올린 카페 메뉴판 느낌. 굵고 큰 타이틀, 알약(pill) 모양 검색창·메뉴·태그</div>
+        </div>
+        <div class="minicard">
+          <div class="lbl">메뉴 구성</div>
+          <div class="val">Home · Menu · Search · About (4개, 알약 모양 내비게이션)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h3>04. 핵심 기능</h3>
+      <table class="feattable">
+        <tr><th>기능</th><th>설명</th><th>우선순위</th></tr>
+        <tr><td class="fname">음료 검색</td><td>"딸기", "라떼"처럼 키워드를 입력하면 관련 음료가 목록으로 나오기</td><td><span class="prio high">필수</span></td></tr>
+        <tr><td class="fname">음료 목록</td><td>음료를 사진과 이름이 담긴 카드 형태로 쭉 보여주기</td><td><span class="prio high">필수</span></td></tr>
+        <tr><td class="fname">음료 상세</td><td>카드를 누르면 필요한 재료, 만드는 방법, 칼로리, 소요 시간, 난이도 보여주기</td><td><span class="prio high">필수</span></td></tr>
+        <tr><td class="fname">카테고리 필터</td><td>커피 · 라떼 · 에이드 · 티 · 스무디, HOT / ICE 로 골라 보기</td><td><span class="prio high">필수</span></td></tr>
+        <tr><td class="fname">즐겨찾기</td><td>마음에 드는 레시피를 저장해두고 다시 보기</td><td><span class="prio mid">나중에</span></td></tr>
+      </table>
+    </div>
+
+    <div class="sec">
+      <h3>05. 필요한 화면</h3>
+      <ul>
+        <li><b>메인</b> — 검색창과 인기 음료, 카테고리가 함께 보이는 첫 화면</li>
+        <li><b>검색 결과</b> — 검색어나 카테고리에 맞는 음료가 카드로 나오는 화면</li>
+        <li><b>음료 상세</b> — 하나를 눌렀을 때 나오는 레시피 화면
+          <div class="chips" style="margin-top:8px"><span>재료</span><span>만드는 방법</span><span>칼로리</span><span>소요 시간</span><span>난이도</span><span>HOT / ICE</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <h3>06. 얻고 싶은 것</h3>
+      <p>검색 → 목록 → 상세로 이어지는 흐름을 직접 기획하고 만들어서, 집에서 카페 음료를 만들고 싶은 사람이 실제로 찾아 쓸 수 있는 레시피 서비스를 인터넷에 올려보는 경험을 하는 것이 목표입니다.</p>
+    </div>
+
+    <div class="sec">
+      <h3>참고 자료</h3>
+      <div class="twocol">
+        <a class="minicard reflink" href="https://tipsy-app.com/ko" target="_blank" rel="noopener">
+          <div class="lbl">사이트 참고</div>
+          <div class="val"><b>Tipsy</b> — 검색 → 목록 → 재료·제조법·칼로리 상세 구조 참고<span class="url">tipsy-app.com/ko ↗</span></div>
+        </a>
+        <a class="minicard reflink" href="https://dribbble.com/shots/27769803-Velora-Premium-Coffee-Brand-Identity-Caf-Experience" target="_blank" rel="noopener">
+          <div class="lbl">무드 참고</div>
+          <div class="val"><b>Velora</b> — Premium Coffee Brand Identity &amp; Café Experience (Dribbble)<span class="url">dribbble.com/shots/27769803 ↗</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span></span>
+    <div style="text-align:right"><b>home cafe<i>.</i></b><br>your favorite cafe, at home</div>
+  </div>
+</main>
+
+</body>
+</html>
