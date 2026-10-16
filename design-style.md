@@ -1,35 +1,61 @@
-# 스타일 D — 다크모던 (카드 없는 구성)
-
-## 기본 설정
-- 폰트: Pretendard 단일
-- 컨텐츠 폭: 1360px
-- 레이아웃 방식: 12컬럼 그리드를 쓰지 않고, **`flex`로 섹션마다 개별 배치**(다른 스타일과 가장 다른 점)
+# home cafe 디자인 스타일
 
 ## 색상 (변수로 선언)
 ```
---bg:#0b0b0d       기본 배경 (거의 검정)
---bg2:#1c1b1f      교차 섹션 배경 (진회색)
---line:#333237      구분선
---ink:#f2f1ee       밝은 텍스트
---ink-soft:#96949a  보조 텍스트
---lime:#62ED5B      포인트색 — 버튼/라벨/타임라인 점/배지 전부 이 색 하나만 사용
+--white:#ffffff    기본 배경 (비율 60%)
+--cream:#f7efe2    보조 컬러 (비율 30%에 포함)
+--beige:#e6d5b8    보조 컬러 (비율 30%에 포함)
+--brown:#6b4426    메인 컬러 (비율 10%)
+--board:#2c4538    포인트색 (보드그린)
 ```
+- 비율: 흰색 60% / 보조(베이지·크림) 30% / 메인(브라운) 10%
+- 포인트색 `#2c4538`(보드그린)은 **포인트를 줘야 할 때만** 사용. 면적을 넓게 쓰지 않는다.
 
-## 컴포넌트 패턴 — 카드를 쓰지 않는 게 핵심
-- **섹션 구분**: 모든 `.sec`에 `border-top:1px solid var(--line)`을 주고, 배경을 `--bg`↔`--bg2`로 번갈아 — 이 두 가지만으로 섹션을 나눔 (카드 박스 없음)
-- **세로 라벨**: About 섹션 왼쪽에 `writing-mode:vertical-rl`로 회전시킨 텍스트("About", "Info", "Career")를 세로 사이드바처럼 배치
-- **가로 타임라인**: 경력은 리스트가 아니라 점(`width/height:10px, border-radius:50%, background:var(--lime)`)과 가로선(`::after`)으로 이어진 타임라인. 항목 사이 간격은 반드시 `gap`을 줘서 점/선이 다음 항목 글자에 닿지 않게 함 (실제로 이 문제가 있었음)
-- **Skill 목록**: 카드 대신 `border-right:1px solid var(--line)`로 나눈 가로 목록. 각 항목 `padding`을 좌우 모두 줘서 글자가 구분선에 붙지 않게 함 (이것도 실제 버그였음)
-- **버튼/배지**: `border-radius:999px`, 배경은 전부 `--lime` 하나. 다른 색을 추가하지 않음.
-- **원형 소셜 아이콘**: `width/height:34px`, `border:1px solid var(--line)`, hover 시에만 `--lime`로 바뀜.
+## 폰트
+| 용도 | 폰트 | font-family |
+|---|---|---|
+| 본문/기본 | Pretendard | `'Pretendard'` |
+| 타이틀 | 학교안심 알림장 | `'SchoolSafetyNotification'` |
+| 포인트 | 온글잎 윤탱체 | `'OwnglyphYuntaeng'` |
 
-## 섹션 순서
-헤더 → Hero(좌측 텍스트+우측 큰 이미지, flex 비대칭) → About(세로 라벨+사진 300px 고정폭+본문, 그 아래 Info 한 줄 + 가로 타임라인) → Skill(bg2, 세로 구분선 목록) → Project(bg, 박스 없이 이미지+텍스트) → Board(bg2, 목록) → Contact(bg, flex 좌우 배치) → Footer
+```css
+@font-face {
+    font-family: 'SchoolSafetyNotification';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-R.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
 
-## 이런 사람에게 어울림
-개발자·테크 계열 인상을 주고 싶은 사람. 장식 없이 포인트색 하나로 절제된 느낌을 원할 때.
+@font-face {
+    font-family: 'SchoolSafetyNotification';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-5@1.0/HakgyoansimAllimjangTTF-B.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+
+/* 포인트 폰트 */
+@font-face {
+    font-family: 'OwnglyphYuntaeng';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/2608211801@font-160/font-160/온글잎 윤탱체.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+```
+- 글자 크기는 **최소 13px**. 그 이하로 떨어지지 않게 한다.
+- 한글 줄바꿈은 `word-break: keep-all` 유지.
+
+## 레이아웃·간격
+- 간격, 패딩, 마진 등의 수치는 **4배수 또는 5배수 단위**로 쓴다. (예: 4, 8, 12, 16, 20, 24, 40, 60 …)
+- 카드 디자인을 쓸 경우 가장 바깥 박스의 `border-radius`는 **16px**.
+
+## 장식 규칙
+- `border`는 최대한 사용하지 않는다. (구분은 배경색 차이와 여백으로)
+- 꾸밈용 `box-shadow`를 남발하지 않는다.
+- 웹접근성을 위한 키보드 포커스(tab 이동) 아웃라인은 제거하지 않고 유지한다. (border 제한의 예외)
 
 ## 수정 시 지켜야 할 것
-- 카드(둥근 박스+배경색 채움)를 다시 넣지 않기 — 이 스타일만 유일하게 카드가 없는 스타일
-- 포인트색을 라임 하나로 유지 — 다른 색 추가하지 않기
-- 구분선 옆에는 항상 여백(padding)을 충분히 줘서 글자가 선에 붙지 않게 하기
+- 색상 비율(흰 60 / 보조 30 / 메인 10)과 포인트색 사용 조건 유지
+- 폰트 역할(본문·타이틀·포인트) 구분 유지
+- 최소 글자 크기 13px 지키기
+- 간격은 4·5배수, 카드 바깥 박스는 `border-radius: 16px`
+- border·box-shadow 최소화, 포커스 아웃라인은 지우지 않기

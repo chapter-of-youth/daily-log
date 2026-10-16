@@ -60,6 +60,15 @@ body{font-family:'Pretendard',-apple-system,"Apple SD Gothic Neo","Malgun Gothic
 .reflink{display:block;color:inherit;text-decoration:none;transition:background .2s}
 .reflink:hover{background:var(--beige)}
 .reflink .url{display:block;margin-top:6px;font-size:12px;font-weight:700;color:var(--board);word-break:break-all}
+.refgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.refgrid .wide{grid-column:1/-1}
+.reflist{display:flex;flex-direction:column;gap:2px;margin:0 -8px}
+.reflist a{display:block;padding:8px 28px 8px 8px;border-radius:12px;color:var(--brown-deep);font-weight:700;text-decoration:none;position:relative;transition:background .2s}
+.reflist a::after{content:'97';position:absolute;right:10px;top:8px;color:var(--board)}
+.reflist a:hover{background:var(--beige)}
+.reflist .note{display:block;margin-top:2px;font-size:12px;font-weight:500;color:var(--ink-soft)}
+.featlink{display:inline-block;margin-top:16px;font-size:13px;font-weight:800;color:var(--chalk);background:var(--board);padding:8px 20px;border-radius:999px;text-decoration:none;transition:background .2s}
+.featlink:hover{background:var(--board-deep)}
 .swatches{display:flex;gap:6px;margin-top:10px}
 .swatches i{display:block;width:24px;height:24px;border-radius:50%;border:1px solid rgba(0,0,0,.1)}
 
@@ -84,7 +93,7 @@ body{font-family:'Pretendard',-apple-system,"Apple SD Gothic Neo","Malgun Gothic
   .panel{border-radius:40px 64px 44px 72px / 56px 44px 64px 48px}
   .topbar{margin-bottom:36px}
   .pillnav{display:none}
-  .twocol{grid-template-columns:1fr}
+  .twocol,.refgrid{grid-template-columns:1fr}
   .doc{border-radius:28px}
 }
 </style>
@@ -169,6 +178,7 @@ body{font-family:'Pretendard',-apple-system,"Apple SD Gothic Neo","Malgun Gothic
         <tr><td class="fname">카테고리 필터</td><td>커피 · 라떼 · 에이드 · 티 · 스무디, HOT / ICE 로 골라 보기</td><td><span class="prio high">필수</span></td></tr>
         <tr><td class="fname">즐겨찾기</td><td>마음에 드는 레시피를 저장해두고 다시 보기</td><td><span class="prio mid">나중에</span></td></tr>
       </table>
+      <a class="featlink" href="features-cafe.html">기능정의서 보러가기 →</a>
     </div>
 
     <div class="sec">
@@ -189,15 +199,33 @@ body{font-family:'Pretendard',-apple-system,"Apple SD Gothic Neo","Malgun Gothic
 
     <div class="sec">
       <h3>참고 자료</h3>
-      <div class="twocol">
-        <a class="minicard reflink" href="https://tipsy-app.com/ko" target="_blank" rel="noopener">
+      <div class="refgrid">
+        <a class="minicard reflink wide" href="https://tipsy-app.com/ko" target="_blank" rel="noopener">
           <div class="lbl">사이트 참고</div>
           <div class="val"><b>Tipsy</b> — 검색 → 목록 → 재료·제조법·칼로리 상세 구조 참고<span class="url">tipsy-app.com/ko ↗</span></div>
         </a>
-        <a class="minicard reflink" href="https://dribbble.com/shots/27769803-Velora-Premium-Coffee-Brand-Identity-Caf-Experience" target="_blank" rel="noopener">
-          <div class="lbl">무드 참고</div>
-          <div class="val"><b>Velora</b> — Premium Coffee Brand Identity &amp; Café Experience (Dribbble)<span class="url">dribbble.com/shots/27769803 ↗</span></div>
-        </a>
+        <div class="minicard">
+          <div class="lbl">레이아웃 참고</div>
+          <div class="val reflist">
+            <a href="https://kr.pinterest.com/pin/29132728835575705/" target="_blank" rel="noopener">haruka - walnut.</a>
+            <a href="https://kr.pinterest.com/pin/4785143348070819/" target="_blank" rel="noopener">Graphic land - Deina's Bite</a>
+            <a href="https://kr.pinterest.com/pin/3448137211196339/" target="_blank" rel="noopener">Bryce Parisian - Bakery</a>
+            <a href="https://dribbble.com/shots/27490733-Premium-Caf-Shop-Landing-Page" target="_blank" rel="noopener">ELEVATED COFFEE</a>
+            <a href="https://kr.pinterest.com/pin/3448137210619419/" target="_blank" rel="noopener">Mana - Healthy Drink Website</a>
+            <a href="https://kr.pinterest.com/pin/40602834138505753/" target="_blank" rel="noopener">Pretzels</a>
+            <a href="https://kr.pinterest.com/pin/13159023903762262/" target="_blank" rel="noopener">diptyque</a>
+            <a href="https://kr.pinterest.com/pin/2533343532433343/" target="_blank" rel="noopener">Sweet Bakery Pastry Shop</a>
+            <a href="https://kr.pinterest.com/pin/2181499811492477/" target="_blank" rel="noopener">Ice Cream</a>
+          </div>
+        </div>
+        <div class="minicard">
+          <div class="lbl">애니메이션 참고</div>
+          <div class="val reflist">
+            <a href="https://kr.vendredigourmand.com/" target="_blank" rel="noopener">금요미식회</a>
+            <a href="https://muque.co.kr/" target="_blank" rel="noopener">뮤끄</a>
+            <a href="https://pizzastorm.co.kr/main.html" target="_blank" rel="noopener">피자스톰<span class="note">누끼 이미지 활용 방식, 호버 애니메이션, 스크롤 애니메이션</span></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
