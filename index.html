@@ -82,40 +82,61 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .header .inner { display: flex; align-items: center; justify-content: space-between; height: 80px; }
 .logo { font-family: var(--font-title); font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
 .logo span { color: var(--board); }
-.nav { display: flex; gap: 8px; }
+.nav { display: flex; gap: 8px; margin-left: 24px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+
+/* 헤더 검색폼: 히어로를 지나면 나타남 */
+.header-search { margin-left: auto; display: flex; align-items: center; width: 260px; background: var(--cream); border-radius: 999px; padding: 4px 4px 4px 20px; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .25s, transform .25s, visibility .25s; }
+.header-search input { flex: 1; min-width: 0; border: 0; background: transparent; font-size: 14px; height: 36px; }
+.header-search input::placeholder { color: var(--brown); opacity: .55; }
+.header-search button { border: 0; background: var(--board); color: var(--cream); border-radius: 999px; height: 36px; padding: 0 16px; font-size: 14px; font-weight: 600; }
+.header.show-search .header-search { opacity: 1; visibility: visible; transform: none; }
 .nav a { display: block; padding: 8px 20px; border-radius: 999px; font-size: 15px; font-weight: 600; transition: background .2s; }
 .nav a:hover { background: var(--cream); }
 .nav a.on { background: var(--board); color: var(--cream); }
 
 /* ===== 히어로 ===== */
-.hero { background: var(--cream); padding: 80px 0; }
-.hero .inner { display: flex; align-items: center; justify-content: space-between; gap: 60px; }
-.hero-text { flex: 1; }
+.hero { position: relative; display: flex; min-height: 640px; color: var(--white); }
+.hero-bg { position: absolute; inset: 0; align-items: flex-start; border-radius: 0; background: var(--brown); color: var(--cream); }
+.hero-bg::after { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .3); }
+.hero .inner { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; padding-top: 100px; padding-bottom: 60px; }
+.hero-text { margin: auto 0; }
+.hero .eyebrow { color: var(--beige); }
 .hero h1 { font-family: var(--font-title); font-size: 60px; font-weight: 700; line-height: 1.2; letter-spacing: -1px; }
-.hero h1 em { font-style: normal; font-family: var(--font-point); font-weight: 400; color: var(--board); }
-.hero p { font-size: 18px; margin: 20px 0 40px; }
-.search { display: flex; align-items: center; background: var(--white); border-radius: 999px; padding: 8px 8px 8px 28px; max-width: 520px; }
+.hero h1 em { font-style: normal; font-family: var(--font-point); font-weight: 400; color: var(--beige); }
+.hero-text p { font-size: 18px; margin-top: 20px; }
+.hero-bottom { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.search { display: flex; align-items: center; width: 100%; background: var(--white); color: var(--brown); border-radius: 999px; padding: 8px 8px 8px 28px; max-width: 520px; }
 .search input { flex: 1; min-width: 0; border: 0; background: transparent; font-size: 16px; height: 44px; }
 .search input::placeholder { color: var(--brown); opacity: .55; }
 .search button { border: 0; background: var(--board); color: var(--cream); border-radius: 999px; height: 44px; padding: 0 28px; font-weight: 600; }
-.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-.tag { background: var(--beige); border-radius: 999px; padding: 4px 16px; font-size: 14px; font-weight: 600; }
+.tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 20px; }
+.tag { background: var(--beige); color: var(--brown); border-radius: 999px; padding: 4px 16px; font-size: 14px; font-weight: 600; }
 .tag:hover { background: var(--brown); color: var(--cream); }
-.hero-img { flex: 0 0 440px; height: 440px; border-radius: 16px; }
 
-/* ===== 간단 레시피 ===== */
-.quick { display: flex; align-items: stretch; gap: 60px; }
-.quick-img { flex: 0 0 480px; min-height: 480px; border-radius: 16px; }
-.quick-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-.quick-body h3 { font-family: var(--font-title); font-size: 36px; line-height: 1.3; margin-bottom: 8px; }
-.meta { display: flex; gap: 8px; margin: 12px 0 28px; }
+/* ===== 소개 ===== */
+.intro { text-align: center; }
+.intro-q { font-family: var(--font-point); font-size: 36px; line-height: 1.4; }
+.intro-a { font-family: var(--font-title); font-size: 32px; font-weight: 700; margin-top: 40px; }
+.intro-count { display: inline-flex; align-items: baseline; gap: 8px; background: var(--cream); border-radius: 999px; padding: 12px 32px; margin-top: 40px; font-size: 16px; font-weight: 600; }
+.intro-count strong { font-family: var(--font-title); font-size: 32px; line-height: 1.2; color: var(--board); }
+
+/* ===== 인기 레시피 ===== */
+.sec-head.center { justify-content: center; text-align: center; }
+.pop { display: grid; grid-template-columns: 1fr 360px 1fr; align-items: center; gap: 40px; }
+.pop-img { width: 360px; height: 360px; border-radius: 50%; align-items: center; justify-content: center; background: var(--cream); }
+.pop-center { text-align: center; }
+.pop-center h3 { font-family: var(--font-title); font-size: 32px; line-height: 1.3; margin-top: 28px; }
+.meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; }
 .meta span { background: var(--cream); border-radius: 999px; padding: 4px 16px; font-size: 14px; font-weight: 600; }
-.quick-cols { display: flex; gap: 40px; }
-.quick-cols > div { flex: 1; background: var(--cream); border-radius: 16px; padding: 28px; }
-.quick-cols h4 { font-family: var(--font-point); font-size: 22px; font-weight: 400; color: var(--board); margin-bottom: 12px; }
-.quick-cols li { font-size: 15px; padding: 4px 0; }
-.quick-cols ol { padding-left: 20px; }
-.quick-cols ol li { list-style: decimal; }
+.pop-col h4 { font-family: var(--font-point); font-size: 24px; font-weight: 400; color: var(--board); margin-bottom: 20px; }
+.pop-list { counter-reset: n; display: flex; flex-direction: column; gap: 20px; }
+.pop-list li { counter-increment: n; display: flex; align-items: center; gap: 12px; font-size: 16px; }
+.pop-list li::before { content: counter(n); flex: 0 0 32px; height: 32px; border-radius: 50%; background: var(--beige); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; }
+/* 왼쪽(재료): 번호가 이미지 쪽(오른쪽)에 붙고 글자는 오른쪽 정렬 */
+.pop-left { text-align: right; }
+.pop-left li { flex-direction: row-reverse; }
+.pop-right .btn-wrap { margin-top: 40px; }
 
 /* ===== 버튼 ===== */
 .btn { display: inline-block; border-radius: 999px; padding: 12px 32px; font-weight: 600; font-size: 15px; transition: opacity .2s; }
@@ -125,8 +146,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
 /* ===== 테마별 추천 ===== */
 .theme-bg { background: var(--cream); }
-.themes { display: flex; gap: 20px; }
-.theme { flex: 1; position: relative; border-radius: 16px; overflow: hidden; min-height: 360px; display: flex; transition: transform .25s; }
+/* 슬라이더: 한 페이지에 3장, 모바일에서도 3열 유지 */
+.slider { display: flex; gap: 20px; padding-top: 4px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.slider::-webkit-scrollbar { display: none; }
+.theme { flex: 0 0 calc((100% - 40px) / 3); scroll-snap-align: start; border-radius: 16px; overflow: hidden; min-height: 360px; display: flex; transition: transform .25s; }
 .theme:hover { transform: translateY(-4px); }
 .theme .ph { flex: 1; align-items: flex-end; flex-direction: column; justify-content: flex-end; gap: 4px; font-size: 16px; }
 .theme b { font-family: var(--font-title); font-size: 28px; line-height: 1.2; }
@@ -135,18 +158,43 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .theme.t2 .ph { background: var(--white); }
 .theme.t3 .ph { background: var(--brown); color: var(--cream); }
 .theme.t4 .ph { background: var(--board); color: var(--cream); }
+.theme.t5 .ph { background: var(--beige); }
+.theme.t6 .ph { background: var(--white); }
+.dots { display: flex; justify-content: center; gap: 8px; margin-top: 28px; }
+.dot { width: 12px; height: 12px; border: 0; border-radius: 999px; background: var(--brown); opacity: .3; transition: width .25s, opacity .25s; }
+.dot[aria-current="true"] { width: 28px; opacity: 1; background: var(--board); }
 
-/* ===== 최근 추가된 레시피 ===== */
+/* ===== 신규 레시피 ===== */
 .recipes { display: flex; gap: 20px; }
-.card { flex: 1; min-width: 0; background: var(--cream); border-radius: 16px; overflow: hidden; transition: transform .25s; }
+.card { flex: 1; min-width: 0; display: flex; background: var(--cream); border-radius: 16px; overflow: hidden; transition: transform .25s; }
 .card:hover { transform: translateY(-4px); }
 .card:hover .card-name { color: var(--board); }
-.card .ph { height: 220px; position: relative; }
-.badge { position: absolute; top: 16px; left: 16px; background: var(--board); color: var(--cream); font-family: 'Pretendard', sans-serif; font-size: 13px; font-weight: 700; border-radius: 999px; padding: 4px 12px; }
-.card-body { padding: 20px 24px 28px; }
-.card-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-.card-meta { display: flex; gap: 12px; font-size: 14px; opacity: .8; }
-.more { text-align: center; margin-top: 52px; }
+.card .ph { flex: 0 0 240px; min-height: 320px; position: relative; border-radius: 0; }
+.badge { display: inline-block; align-self: flex-start; background: var(--board); color: var(--cream); font-size: 13px; font-weight: 700; border-radius: 999px; padding: 4px 12px; margin-bottom: 12px; }
+.card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; padding: 24px; }
+.card-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.card-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 14px; opacity: .8; }
+.card-ing { margin-top: 20px; font-size: 14px; }
+.card-ing h4 { font-family: var(--font-point); font-size: 20px; font-weight: 400; color: var(--board); margin-bottom: 4px; }
+.card-link { margin-top: auto; padding-top: 20px; font-size: 14px; font-weight: 700; }
+.card-link:hover { text-decoration: underline; }
+
+/* 이런 레시피도 있어요 (신규 레시피 하위 영역) */
+.sub-title { font-family: var(--font-title); font-size: 24px; font-weight: 700; margin: 60px 0 20px; }
+.mini-list { display: flex; gap: 20px; }
+.mini { flex: 0 1 348px; min-width: 0; height: 162px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; padding: 20px; border-radius: 16px; overflow: hidden; color: var(--white); background: var(--brown); transition: transform .25s; }
+.mini:hover { transform: translateY(-4px); }
+.mini::before { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .25); }
+.mini > * { position: relative; }
+.mini b { font-size: 20px; line-height: 1.3; }
+.mini small { font-size: 13px; }
+
+/* ===== 알림받기 ===== */
+.notify { background: var(--cream); padding: 60px 0; text-align: center; }
+.notify h2 { font-family: var(--font-title); font-size: 28px; font-weight: 700; }
+.notify p { font-size: 15px; margin: 8px 0 28px; opacity: .8; }
+.notify .btn { border: 0; padding: 16px 40px; font-size: 16px; }
+.notify .btn[aria-pressed="true"] { background: var(--board); }
 
 /* ===== 푸터 ===== */
 .footer { background: var(--brown); color: var(--cream); padding: 60px 0 40px; }
@@ -159,24 +207,47 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
 /* ===== 반응형 ===== */
 @media (max-width: 960px) {
-  .hero .inner, .quick { flex-direction: column; }
-  .hero-img, .quick-img { flex: none; width: 100%; height: 320px; min-height: 0; }
+  .hero { min-height: 560px; }
   .hero h1 { font-size: 44px; }
-  .themes, .recipes { flex-wrap: wrap; }
-  .theme, .card { flex: 1 1 calc(50% - 10px); }
+  .pop { grid-template-columns: 1fr; gap: 40px; }
+  .pop-center { order: -1; }
+  .pop-img { width: 100%; max-width: 360px; margin: 0 auto; }
+  .pop-left { text-align: left; }
+  .pop-left li { flex-direction: row; }
+  .recipes { flex-direction: column; }
+  .mini-list { flex-wrap: wrap; }
+  .mini { flex: 1 1 calc(50% - 10px); }
 }
 @media (max-width: 600px) {
   .header .inner { height: 64px; }
+  .nav { margin-left: auto; }
   .nav a { padding: 8px 12px; font-size: 14px; }
   .logo { font-size: 24px; }
+  /* 모바일: 헤더 검색폼은 헤더 아래 띠로 나타남 (본문이 밀리지 않게 absolute) */
+  .header-search { position: absolute; top: 100%; left: 0; right: 0; width: auto; border-radius: 0; background: var(--white); padding: 8px 24px 12px; }
+  .header-search input { background: var(--cream); border-radius: 999px 0 0 999px; padding-left: 20px; }
+  .header-search button { border-radius: 0 999px 999px 0; }
   .sec { padding: 60px 0; }
-  .hero { padding: 40px 0 60px; }
+  .hero { min-height: 520px; }
+  .hero .inner { padding-top: 60px; padding-bottom: 40px; }
   .hero h1 { font-size: 36px; }
+  .intro-q { font-size: 28px; }
+  .intro-a { font-size: 28px; }
   .sec-head { flex-direction: column; align-items: flex-start; }
   .sec-title { font-size: 28px; }
-  .quick-cols { flex-direction: column; gap: 20px; }
-  .theme, .card { flex: 1 1 100%; }
-  .theme { min-height: 240px; }
+  /* 테마 슬라이더는 모바일에서도 3열 유지 */
+  .slider { gap: 8px; }
+  .theme { flex-basis: calc((100% - 16px) / 3); min-height: 200px; }
+  .theme .ph { padding: 12px; }
+  .theme b { font-size: 18px; }
+  /* 신규 레시피: 이미지 위 / 텍스트 아래 */
+  .card { flex-direction: column; }
+  .card .ph { flex: none; height: 220px; min-height: 0; }
+  .card-body { padding: 20px; }
+  /* 이런 레시피도 있어요: 1열, 2개만 표시 */
+  .mini-list { flex-direction: column; flex-wrap: nowrap; gap: 12px; }
+  .mini { flex: none; width: 100%; }
+  .mini:nth-child(n+3) { display: none; }
   .footer .inner { flex-direction: column; }
 }
 </style>
@@ -187,6 +258,11 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 <header class="header">
   <div class="inner">
     <a href="index.html" class="logo" aria-label="home cafe 홈">home cafe<span>.</span></a>
+    <form class="header-search" role="search" onsubmit="return false">
+      <label for="hq" class="sr">음료 검색</label>
+      <input id="hq" type="search" placeholder="음료 검색">
+      <button type="submit">검색</button>
+    </form>
     <nav class="nav" aria-label="주요 메뉴">
       <a href="index.html" class="on" aria-current="page">Home</a>
       <a href="#recent">Menu</a>
@@ -199,13 +275,16 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 <main>
   <!-- 히어로 -->
   <section class="hero" id="search">
+    <div class="hero-bg ph" role="img" aria-label="음료 대표 사진 자리">대표 음료 사진</div>
     <div class="inner">
       <div class="hero-text">
         <span class="eyebrow">집에서 만드는 카페 음료</span>
-        <h1>오늘은 어떤 음료를<br><em>만들어</em> 볼까요?</h1>
+        <h1>집에서도 카페 그 맛,<br><em>똑같이</em> 만들어요</h1>
         <p>재료와 만드는 순서, 칼로리까지 검색 한 번에 확인하세요.</p>
+      </div>
+      <div class="hero-bottom">
         <form class="search" role="search" onsubmit="return false">
-          <label for="q" class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">음료 검색</label>
+          <label for="q" class="sr">음료 검색</label>
           <input id="q" type="search" placeholder="어떤 음료를 만들까요?">
           <button type="submit">검색</button>
         </form>
@@ -217,44 +296,51 @@ a:focus-visible, button:focus-visible, input:focus-visible {
           <li><a class="tag" href="#">스무디</a></li>
         </ul>
       </div>
-      <div class="hero-img ph" role="img" aria-label="음료 대표 사진 자리">대표 음료 사진</div>
     </div>
   </section>
 
-  <!-- 간단 레시피 -->
+  <!-- 소개 -->
+  <section class="sec intro">
+    <div class="inner">
+      <p class="intro-q">카페 음료, 집에서도 마시고 싶은데..<br>왜 그 맛이 안 나지?</p>
+      <p class="intro-a">그럼, 검색해보세요!</p>
+      <!-- 등록 레시피 수: 임시 값. 실제 데이터 개수로 교체 -->
+      <p class="intro-count"><strong id="recipe-count">128</strong>개의 레시피가 등록되어 있어요</p>
+    </div>
+  </section>
+
+  <!-- 인기 레시피 -->
   <section class="sec">
     <div class="inner">
-      <div class="sec-head">
+      <div class="sec-head center">
         <div>
-          <span class="eyebrow">오늘의 간단 레시피</span>
-          <h2 class="sec-title">10분이면 충분해요</h2>
+          <span class="eyebrow">가장 많이 찾는</span>
+          <h2 class="sec-title">인기 레시피</h2>
         </div>
       </div>
-      <div class="quick">
-        <div class="quick-img ph" role="img" aria-label="딸기 라떼 사진 자리">딸기 라떼 사진</div>
-        <div class="quick-body">
+      <div class="pop">
+        <div class="pop-col pop-left">
+          <h4>재료</h4>
+          <ul class="pop-list">
+            <li>딸기 5알</li>
+            <li>우유 200ml</li>
+            <li>설탕 1큰술</li>
+            <li>얼음 1컵</li>
+          </ul>
+        </div>
+        <div class="pop-center">
+          <div class="pop-img ph" role="img" aria-label="딸기 라떼 누끼 사진 자리">음료 누끼 이미지</div>
           <h3>딸기 라떼</h3>
           <div class="meta"><span>ICE</span><span>10분</span><span>난이도 하</span><span>230kcal</span></div>
-          <div class="quick-cols">
-            <div>
-              <h4>재료</h4>
-              <ul>
-                <li>딸기 5알</li>
-                <li>우유 200ml</li>
-                <li>설탕 1큰술</li>
-                <li>얼음 1컵</li>
-              </ul>
-            </div>
-            <div>
-              <h4>만드는 법</h4>
-              <ol>
-                <li>딸기와 설탕을 으깨 청을 만들어요.</li>
-                <li>컵에 청과 얼음을 담아요.</li>
-                <li>차가운 우유를 천천히 부어요.</li>
-              </ol>
-            </div>
-          </div>
-          <div class="btn-wrap"><a href="#" class="btn btn-brown">레시피 자세히 보기</a></div>
+        </div>
+        <div class="pop-col pop-right">
+          <h4>레시피</h4>
+          <ol class="pop-list">
+            <li>딸기와 설탕을 으깨 청을 만들어요.</li>
+            <li>컵에 청과 얼음을 담아요.</li>
+            <li>차가운 우유를 천천히 부어요.</li>
+          </ol>
+          <div class="btn-wrap"><a href="#" class="btn btn-brown">레시피 더보기 &gt;</a></div>
         </div>
       </div>
     </div>
@@ -269,12 +355,15 @@ a:focus-visible, button:focus-visible, input:focus-visible {
           <h2 class="sec-title">테마별 추천</h2>
         </div>
       </div>
-      <div class="themes">
-        <a href="#" class="theme t1"><div class="ph"><b>달콤</b><small>바닐라 · 카라멜 · 초코</small></div></a>
-        <a href="#" class="theme t2"><div class="ph"><b>상큼</b><small>에이드 · 과일티 · 스무디</small></div></a>
-        <a href="#" class="theme t3"><div class="ph"><b>디카페인</b><small>밤에도 부담 없는 음료</small></div></a>
-        <a href="#" class="theme t4"><div class="ph"><b>따뜻한</b><small>추운 날 HOT 음료</small></div></a>
+      <div class="slider" id="theme-slider" tabindex="0" aria-label="테마별 추천 슬라이더">
+        <a href="#" class="theme t1"><div class="ph"><b>달콤</b><small>음료 24개</small></div></a>
+        <a href="#" class="theme t2"><div class="ph"><b>상큼</b><small>음료 18개</small></div></a>
+        <a href="#" class="theme t3"><div class="ph"><b>디카페인</b><small>음료 15개</small></div></a>
+        <a href="#" class="theme t4"><div class="ph"><b>따뜻한</b><small>음료 21개</small></div></a>
+        <a href="#" class="theme t5"><div class="ph"><b>고소한</b><small>음료 12개</small></div></a>
+        <a href="#" class="theme t6"><div class="ph"><b>시원한</b><small>음료 30개</small></div></a>
       </div>
+      <div class="dots" id="theme-dots" role="group" aria-label="슬라이더 페이지"></div>
     </div>
   </section>
 
@@ -284,29 +373,49 @@ a:focus-visible, button:focus-visible, input:focus-visible {
       <div class="sec-head">
         <div>
           <span class="eyebrow">방금 올라온</span>
-          <h2 class="sec-title">최근 추가된 레시피</h2>
-          <p class="sec-sub">가장 최신 레시피가 왼쪽에 있어요.</p>
+          <h2 class="sec-title">신규 레시피</h2>
         </div>
       </div>
       <div class="recipes">
         <a href="#" class="card">
-          <div class="ph"><span class="badge">NEW</span>레시피 사진</div>
-          <div class="card-body"><p class="card-name">흑임자 라떼</p><div class="card-meta"><span>HOT</span><span>10분</span><span>난이도 하</span></div></div>
+          <div class="ph" role="img" aria-label="흑임자 라떼 사진 자리">레시피 사진</div>
+          <div class="card-body">
+            <span class="badge">New</span>
+            <p class="card-name">흑임자 라떼</p>
+            <div class="card-meta"><span>HOT</span><span>10분</span><span>난이도 하</span></div>
+            <div class="card-ing"><h4>필수 재료</h4><p>흑임자 페이스트, 우유, 연유</p></div>
+            <span class="card-link">전체 레시피 보기 &gt;</span>
+          </div>
         </a>
         <a href="#" class="card">
-          <div class="ph">레시피 사진</div>
-          <div class="card-body"><p class="card-name">자몽 에이드</p><div class="card-meta"><span>ICE</span><span>5분</span><span>난이도 하</span></div></div>
-        </a>
-        <a href="#" class="card">
-          <div class="ph">레시피 사진</div>
-          <div class="card-body"><p class="card-name">바닐라 라떼</p><div class="card-meta"><span>HOT · ICE</span><span>5분</span><span>난이도 하</span></div></div>
-        </a>
-        <a href="#" class="card">
-          <div class="ph">레시피 사진</div>
-          <div class="card-body"><p class="card-name">망고 스무디</p><div class="card-meta"><span>ICE</span><span>10분</span><span>난이도 중</span></div></div>
+          <div class="ph" role="img" aria-label="자몽 에이드 사진 자리">레시피 사진</div>
+          <div class="card-body">
+            <span class="badge">New</span>
+            <p class="card-name">자몽 에이드</p>
+            <div class="card-meta"><span>ICE</span><span>5분</span><span>난이도 하</span></div>
+            <div class="card-ing"><h4>필수 재료</h4><p>자몽, 탄산수, 설탕</p></div>
+            <span class="card-link">전체 레시피 보기 &gt;</span>
+          </div>
         </a>
       </div>
-      <div class="more"><a href="#" class="btn btn-brown">전체 레시피 보기</a></div>
+
+      <!-- 신규 레시피 하위 영역 -->
+      <h3 class="sub-title">이런 레시피도 있어요</h3>
+      <div class="mini-list">
+        <a href="#" class="mini"><b>바닐라 라떼</b><small>난이도 하 · 5분</small></a>
+        <a href="#" class="mini"><b>망고 스무디</b><small>난이도 중 · 10분</small></a>
+        <a href="#" class="mini"><b>아인슈페너</b><small>난이도 중 · 10분</small></a>
+        <a href="#" class="mini"><b>얼그레이 티</b><small>난이도 하 · 5분</small></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 알림받기 -->
+  <section class="notify">
+    <div class="inner">
+      <h2>새 레시피가 올라오면 알려드릴게요</h2>
+      <p>신규 레시피가 추가되면 가장 먼저 만나보세요.</p>
+      <button type="button" class="btn btn-brown" id="notify-btn" aria-pressed="false">신규 레시피 추가 시 알림받기</button>
     </div>
   </section>
 </main>
@@ -328,5 +437,56 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   <div class="inner"><p class="copy">© 2026 home cafe. All rights reserved.</p></div>
 </footer>
 
+<script>
+(function () {
+  // 헤더 검색폼: 히어로가 헤더 아래로 지나가면 표시
+  var header = document.querySelector('.header');
+  var hero = document.querySelector('.hero');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      header.classList.toggle('show-search', !entries[0].isIntersecting);
+    }, { rootMargin: '-' + header.offsetHeight + 'px 0px 0px 0px' }).observe(hero);
+  }
+
+  // 테마 슬라이더 페이지네이션 (한 페이지 = 3장)
+  var slider = document.getElementById('theme-slider');
+  var dotsBox = document.getElementById('theme-dots');
+  var PER_PAGE = 3;
+  var pages = Math.ceil(slider.children.length / PER_PAGE);
+  var dots = [];
+
+  function pageWidth() {
+    return slider.clientWidth + parseFloat(getComputedStyle(slider).columnGap || 0);
+  }
+  function setCurrent(i) {
+    dots.forEach(function (d, n) { d.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+  }
+  for (var i = 0; i < pages; i++) {
+    (function (n) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'dot';
+      b.setAttribute('aria-label', (n + 1) + '번째 페이지');
+      b.addEventListener('click', function () {
+        slider.scrollTo({ left: n * pageWidth(), behavior: 'smooth' });
+      });
+      dotsBox.appendChild(b);
+      dots.push(b);
+    })(i);
+  }
+  slider.addEventListener('scroll', function () {
+    setCurrent(Math.min(pages - 1, Math.round(slider.scrollLeft / pageWidth())));
+  }, { passive: true });
+  setCurrent(0);
+
+  // 알림받기 토글 (서버 연동 전 임시 동작)
+  var notify = document.getElementById('notify-btn');
+  notify.addEventListener('click', function () {
+    var on = notify.getAttribute('aria-pressed') !== 'true';
+    notify.setAttribute('aria-pressed', on);
+    notify.textContent = on ? '알림 신청 완료 (취소하려면 클릭)' : '신규 레시피 추가 시 알림받기';
+  });
+})();
+</script>
 </body>
 </html>
