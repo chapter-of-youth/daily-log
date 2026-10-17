@@ -96,7 +96,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .nav a.on { background: var(--board); color: var(--cream); }
 
 /* ===== 히어로 ===== */
-.hero { position: relative; display: flex; min-height: 640px; color: var(--white); }
+.hero { position: relative; display: flex; height: calc(100vh - 80px); min-height: 560px; color: var(--white); }
 .hero-bg { position: absolute; inset: 0; align-items: flex-start; border-radius: 0; background: var(--brown); color: var(--cream); }
 .hero-bg::after { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .3); }
 .hero .inner { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; padding-top: 100px; padding-bottom: 60px; }
@@ -116,9 +116,12 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
 /* ===== 소개 ===== */
 .intro { text-align: center; }
-.intro-q { font-family: var(--font-point); font-size: 36px; line-height: 1.4; }
-.intro-a { font-family: var(--font-title); font-size: 32px; font-weight: 700; margin-top: 40px; }
-.intro-count { display: inline-flex; align-items: baseline; gap: 8px; background: var(--cream); border-radius: 999px; padding: 12px 32px; margin-top: 40px; font-size: 16px; font-weight: 600; }
+.intro-title { font-family: var(--font-title); font-size: 36px; font-weight: 700; line-height: 1.4; }
+.intro-steps { display: flex; gap: 20px; margin-top: 60px; }
+.intro-step { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; background: var(--cream); border-radius: 16px; padding: 40px 28px; }
+.intro-step h3 { font-family: var(--font-title); font-size: 24px; line-height: 1.3; color: var(--board); }
+.intro-step p { font-size: 16px; }
+.intro-count { display: inline-flex; align-items: baseline; gap: 8px; background: var(--cream); border-radius: 999px; padding: 12px 32px; margin-top: 60px; font-size: 16px; font-weight: 600; }
 .intro-count strong { font-family: var(--font-title); font-size: 32px; line-height: 1.2; color: var(--board); }
 
 /* ===== 인기 레시피 ===== */
@@ -207,7 +210,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 
 /* ===== 반응형 ===== */
 @media (max-width: 960px) {
-  .hero { min-height: 560px; }
   .hero h1 { font-size: 44px; }
   .pop { grid-template-columns: 1fr; gap: 40px; }
   .pop-center { order: -1; }
@@ -228,11 +230,11 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .header-search input { background: var(--cream); border-radius: 999px 0 0 999px; padding-left: 20px; }
   .header-search button { border-radius: 0 999px 999px 0; }
   .sec { padding: 60px 0; }
-  .hero { min-height: 520px; }
   .hero .inner { padding-top: 60px; padding-bottom: 40px; }
   .hero h1 { font-size: 36px; }
-  .intro-q { font-size: 28px; }
-  .intro-a { font-size: 28px; }
+  .intro-title { font-size: 28px; }
+  .intro-steps { flex-direction: column; gap: 12px; margin-top: 40px; }
+  .intro-step { padding: 28px 24px; }
   .sec-head { flex-direction: column; align-items: flex-start; }
   .sec-title { font-size: 28px; }
   /* 테마 슬라이더는 모바일에서도 3열 유지 */
@@ -278,9 +280,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
     <div class="hero-bg ph" role="img" aria-label="음료 대표 사진 자리">대표 음료 사진</div>
     <div class="inner">
       <div class="hero-text">
-        <span class="eyebrow">집에서 만드는 카페 음료</span>
-        <h1>집에서도 카페 그 맛,<br><em>똑같이</em> 만들어요</h1>
-        <p>재료와 만드는 순서, 칼로리까지 검색 한 번에 확인하세요.</p>
+        <h1>집에서 만드는 카페 음료 레시피,<br><em>home cafe.</em></h1>
+        <p>원하는 음료를 검색하고 재료부터 만드는 순서까지 한눈에 확인하세요.</p>
       </div>
       <div class="hero-bottom">
         <form class="search" role="search" onsubmit="return false">
@@ -302,8 +303,21 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   <!-- 소개 -->
   <section class="sec intro">
     <div class="inner">
-      <p class="intro-q">카페 음료, 집에서도 마시고 싶은데..<br>왜 그 맛이 안 나지?</p>
-      <p class="intro-a">그럼, 검색해보세요!</p>
+      <h2 class="intro-title">좋아하는 카페 음료,<br>이제 집에서 만들어보세요.</h2>
+      <ul class="intro-steps">
+        <li class="intro-step">
+          <h3>원하는 음료 찾기</h3>
+          <p>음료 이름이나 재료로 검색하고, 카테고리로 골라보세요.</p>
+        </li>
+        <li class="intro-step">
+          <h3>필요한 재료 확인하기</h3>
+          <p>재료와 분량, 소요 시간과 난이도를 미리 확인하세요.</p>
+        </li>
+        <li class="intro-step">
+          <h3>순서대로 만들어보기</h3>
+          <p>단계별 레시피를 따라 나만의 한 잔을 완성하세요.</p>
+        </li>
+      </ul>
       <!-- 등록 레시피 수: 임시 값. 실제 데이터 개수로 교체 -->
       <p class="intro-count"><strong id="recipe-count">128</strong>개의 레시피가 등록되어 있어요</p>
     </div>
