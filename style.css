@@ -37,10 +37,14 @@ body {
   font-family: 'Pretendard', sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color: var(--brown);
+  color: #333;
   background: var(--white);
   word-break: keep-all;
 }
+
+/* 타이틀·헤딩은 브라운 유지 (본문만 #000) */
+.logo, .sec-title, .intro-title, .sub-title, .pop-center h3, .notify h2, .card-name { color: var(--brown); }
+.footer .logo { color: var(--cream); }
 
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
@@ -93,24 +97,43 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .nav a.on { background: var(--board); color: var(--cream); }
 
 /* ===== 히어로 ===== */
-.hero { position: relative; display: flex; height: calc(100vh - 80px); min-height: 560px; color: var(--white); }
-.hero-bg { position: absolute; inset: 0; align-items: flex-start; border-radius: 0; background: var(--brown); color: var(--cream); }
-.hero-bg video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.hero-bg::after { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .3); }
-.hero .inner { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; padding-top: 100px; padding-bottom: 60px; }
-.hero-text { margin: auto 0; }
-.hero .eyebrow { color: var(--beige); }
-.hero h1 { font-family: var(--font-point); font-size: 36px; font-weight: 400; line-height: 1.2; letter-spacing: -1px; }
-.hero h1 em { font-style: normal; font-family: var(--font-title); font-size: 2em; font-weight: 700; color: var(--beige); }
-.hero-text p { font-size: 18px; margin-top: 20px; }
-.hero-bottom { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.hero { position: relative; display: flex; height: calc(100vh - 80px); min-height: 560px; color: var(--brown); overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; background: url(img/hero-bg.png) center bottom / cover no-repeat; }
+/* choco2: 배경 레이어, 마우스 반대 방향으로 이동 */
+.hero-choco-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; transform: translate3d(var(--bg-x, 0px), var(--bg-y, 0px), 0); will-change: transform; }
+/* choco1: latte보다 위, 마우스를 따라 아주 살짝 이동 (script.js에서 --fx-x/--fx-y 갱신) */
+.hero-choco-fx { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; object-fit: cover; pointer-events: none; transform: translate3d(var(--fx-x, 0px), var(--fx-y, 0px), 0); will-change: transform; }
+/* 이미지 그룹: 두 이미지를 한 칸에 겹침 (ellipse 아래, latte 위), 가로·세로 가운데 */
+.hero-main { flex: 1; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+.hero-visual { position: relative; z-index: 1; display: grid; align-items: center; justify-items: center; }
+.hero-visual > * { grid-area: 1 / 1; justify-self: center; display: block; height: auto; }
+.hero-ellipse { width: 480px; max-width: none; height: auto; fill: var(--hero-color, #6b4426); transition: fill .6s; }
+.hero-latte { width: 320px; max-width: none; position: relative; }
+.hero .inner { position: relative; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: left; padding-top: 100px; padding-bottom: 60px; }
+.hero-text { position: relative; z-index: 3; max-width: 340px; }
+.hero h1 { font-family: var(--font-point); font-size: 36px; font-weight: 400; line-height: 1.2; letter-spacing: -1px; color: var(--board); }
+.hero h1 em { font-style: normal; font-family: var(--font-title); font-size: 2em; font-weight: 700; color: var(--brown); }
+.hero-text p { font-size: 18px; margin-top: 20px; color: #333; }
+/* 왼쪽 텍스트: h1 첫 줄 → em → p 순서로 왼쪽에서 오른쪽으로 들어오며 페이드인 */
+.hero-line, .hero h1 em { display: inline-block; }
+.hero-line { animation: hero-text-in .7s ease-out .5s backwards; }
+.hero h1 em { animation: hero-text-in .7s ease-out 1s backwards; }
+.hero-text p { animation: hero-text-in .7s ease-out 1.5s backwards; }
+@keyframes hero-text-in {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-line, .hero h1 em, .hero-text p { animation: none; }
+}
+.hero-bottom { position: relative; z-index: 3; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
 .search { display: flex; align-items: center; width: 100%; background: var(--white); color: var(--brown); border-radius: 999px; padding: 8px 8px 8px 28px; max-width: 520px; }
 .search input { flex: 1; min-width: 0; border: 0; background: transparent; font-size: 16px; height: 44px; }
 .search input::placeholder { color: var(--brown); opacity: .55; }
 .search button { border: 0; background: var(--board); color: var(--cream); border-radius: 999px; height: 44px; padding: 0 28px; font-weight: 600; }
 .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 20px; }
-.tag { background: var(--beige); color: var(--brown); border-radius: 999px; padding: 8px 16px; font-size: 16px; font-weight: 600; }
-.tag:hover { background: var(--brown); color: var(--cream); }
+.tag { background: var(--cream); color: var(--brown); border-radius: 999px; padding: 8px 16px; font-size: 16px; font-weight: 600; }
+.tag:hover { background: var(--board); color: #fff; }
 
 /* ===== 소개 ===== */
 .intro { text-align: center; }
@@ -124,6 +147,19 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .intro-step:not(:last-child)::after { content: ''; position: absolute; top: 0; bottom: 0; right: -10px; width: 1px; background: var(--beige); }
 .intro-step h3 { font-family: var(--font-title); font-size: 24px; line-height: 1.3; color: var(--board); }
 .intro-step p { font-size: 16px; }
+/* 스크롤 등장/퇴장: JS가 .will-reveal을 붙여 숨겨 두고, 섹션 상단이 300px 지점을 지나면 .in-view 토글.
+   나타날 땐 1→2→3 순서, 위로 스크롤해 사라질 땐 3→2→1 역순으로 아래로 스르륵 */
+.intro-steps.will-reveal .intro-step { opacity: 0; transform: translateY(40px); transition: opacity .6s ease-out, transform .6s ease-out; }
+.intro-steps.will-reveal .intro-step:nth-child(3) { transition-delay: 0s; }
+.intro-steps.will-reveal .intro-step:nth-child(2) { transition-delay: .2s; }
+.intro-steps.will-reveal .intro-step:nth-child(1) { transition-delay: .4s; }
+.intro-steps.will-reveal.in-view .intro-step { opacity: 1; transform: none; }
+.intro-steps.will-reveal.in-view .intro-step:nth-child(1) { transition-delay: 0s; }
+.intro-steps.will-reveal.in-view .intro-step:nth-child(2) { transition-delay: .2s; }
+.intro-steps.will-reveal.in-view .intro-step:nth-child(3) { transition-delay: .4s; }
+@media (prefers-reduced-motion: reduce) {
+  .intro-steps.will-reveal .intro-step { opacity: 1; transform: none; transition: none; }
+}
 .intro-count { display: inline-flex; align-items: baseline; gap: 8px; background: var(--cream); border-radius: 999px; padding: 12px 32px; margin-top: 60px; font-size: 16px; font-weight: 600; }
 .intro-count strong { font-family: var(--font-title); font-size: 32px; line-height: 1.2; color: var(--board); }
 
@@ -170,11 +206,18 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .pop .btn-brown:hover::after { transform: translateX(3px) rotate(45deg); }
 
 /* ===== 테마별 추천 ===== */
-.theme-bg { background: var(--cream); }
-/* 슬라이더: 한 페이지에 3장, 모바일에서도 3열 유지 */
-.slider { display: flex; gap: 20px; padding-top: 4px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
-.slider::-webkit-scrollbar { display: none; }
-.theme { flex: 0 0 calc((100% - 40px) / 3); scroll-snap-align: start; border-radius: 16px; overflow: hidden; min-height: 360px; display: flex; transition: transform .25s; }
+.theme-bg { position: relative; isolation: isolate; overflow: hidden; background: var(--board); }
+.theme-bg > .inner { position: relative; z-index: 1; }
+/* 배경 레이어 2장을 번갈아 켜서 크로스페이드 (이미지는 JS가 data-bg로 지정) */
+.theme-bg-layer { position: absolute; inset: -40px; z-index: -1; background: center / cover no-repeat; filter: blur(20px); opacity: 0; transition: opacity .6s; }
+.theme-bg-layer.on { opacity: 1; }
+.theme-bg::after { content: ''; position: absolute; inset: 0; z-index: -1; background: rgba(0, 0, 0, .45); }
+.theme-bg .eyebrow { color: var(--beige); }
+.theme-bg .sec-title { color: var(--white); }
+/* 슬라이더: Swiper (슬라이드 폭·간격·페이지네이션은 JS 옵션으로 제어) */
+.theme-swiper { padding-top: 4px; }
+.swiper-slide { height: auto; }
+.theme { height: 100%; border-radius: 16px; overflow: hidden; min-height: 360px; display: flex; transition: transform .25s; }
 .theme:hover { transform: translateY(-4px); }
 .theme .ph { flex: 1; align-items: flex-end; flex-direction: column; justify-content: flex-end; gap: 4px; font-size: 16px; }
 .theme b { font-family: var(--font-title); font-size: 28px; line-height: 1.2; }
@@ -192,11 +235,21 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .theme.t4 .ph { background-image: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 55%), url(img/theme-hot.png); }
 .theme.t5 .ph { background-image: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 55%), url(img/theme-tea.png); }
 .theme.t6 .ph { background-image: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0) 55%), url(img/theme-ice.png); }
-.dots { display: flex; justify-content: center; gap: 8px; margin-top: 28px; }
-.dot { width: 12px; height: 12px; border: 0; border-radius: 999px; background: var(--brown); opacity: .3; transition: width .25s, opacity .25s; }
-.dot[aria-current="true"] { width: 28px; opacity: 1; background: var(--board); }
+.theme-swiper .swiper-pagination { position: static; display: flex; justify-content: center; gap: 8px; margin-top: 28px; }
+.theme-swiper .swiper-pagination-bullet { width: 12px; height: 12px; margin: 0 !important; border-radius: 999px; background: var(--white); opacity: .4; transition: width .25s, opacity .25s; }
+.theme-swiper .swiper-pagination-bullet-active { width: 28px; opacity: 1; background: var(--white); }
 
 /* ===== 신규 레시피 ===== */
+/* 깅엄(바둑판) 체크: 가로·세로 반투명 줄무늬가 겹쳐 교차부가 더 진하게 보임 */
+#recent {
+  background-color: var(--white);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(230, 213, 184, .8) 0 2px, transparent 2px 36px),
+    repeating-linear-gradient(90deg, rgba(230, 213, 184, .8) 0 2px, transparent 2px 36px);
+}
+/* 하단 찢긴 종이 이미지: .recent-more는 position을 두지 않아 ::after가 #recent 기준으로 바닥에 붙음 */
+#recent { position: relative; isolation: isolate; }
+.recent-more::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; z-index: -1; aspect-ratio: 1920 / 400; background: url(img/recent-bottom.png) center bottom / 100% 100% no-repeat; pointer-events: none; }
 .recipes { display: flex; gap: 20px; }
 .card { flex: 1; min-width: 0; display: flex; background: var(--cream); border-radius: 16px; overflow: hidden; transition: transform .25s; }
 .card:hover { transform: translateY(-4px); }
@@ -214,14 +267,21 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .card-link:hover { text-decoration: underline; }
 
 /* 이런 레시피도 있어요 (신규 레시피 하위 영역) */
-.sub-title { font-family: var(--font-title); font-size: 24px; font-weight: 400; margin: 60px 0 20px; }
-.mini-list { display: flex; gap: 20px; }
-.mini { flex: 0 1 348px; min-width: 0; height: 162px; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 4px; padding: 20px; border-radius: 16px; overflow: hidden; color: var(--white); background: var(--brown); transition: transform .25s; }
+.sub-title { font-family: var(--font-title); font-size: 24px; font-weight: 400; margin: 80px 0 20px; }
+/* Swiper 연속 흐름 루프: 일정 속도로 흐르도록 linear (옵션은 script.js) */
+.mini-list { padding-top: 4px; /* 호버 시 위로 뜨는 카드가 잘리지 않게 */ }
+.mini-list .swiper-wrapper { transition-timing-function: linear; }
+.mini { width: 348px; height: 162px; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 4px; padding: 20px; border-radius: 16px; overflow: hidden; color: var(--white); background: var(--brown); transition: transform .25s; }
 .mini { background-size: cover; }
-.mini:nth-child(1) { background-image: url(img/new-vanilla.png); background-position: center 30%; }
-.mini:nth-child(2) { background-image: url(img/new-mango.png); background-position: center 30%; }
-.mini:nth-child(3) { background-image: url(img/new-einspanner.png); background-position: center 40%; }
-.mini:nth-child(4) { background-image: url(img/new-earl_grey.png); background-position: center 65%; }
+/* nth-child 대신 클래스로 지정 (loop 복제 슬라이드에도 동일 적용) */
+.mini--vanilla { background-image: url(img/new-vanilla.png); background-position: center 30%; }
+.mini--mango { background-image: url(img/new-mango.png); background-position: center 30%; }
+.mini--einspanner { background-image: url(img/new-einspanner.png); background-position: center 40%; }
+.mini--earlgrey { background-image: url(img/new-earl_grey.png); background-position: center 65%; }
+.mini--sesame { background-image: url(img/new-black_sesame_latte.jpg); background-position: center 30%; }
+.mini--grapefruit { background-image: url(img/new-grapefuit_ade.png); background-position: center 20%; }
+.mini--strawberry { background-image: url(img/recent-more_strawberry.png); background-position: center 30%; }
+.mini--blueberry { background-image: url(img/recent-more_blueberry.png); background-position: center 20%; }
 .mini:hover { transform: translateY(-4px); }
 .mini::before { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .4); }
 .mini > * { position: relative; }
@@ -229,11 +289,45 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .mini small { font-size: 16px; }
 
 /* ===== 알림받기 ===== */
-.notify { background: var(--cream); padding: 60px 0; text-align: center; }
+.notify { position: relative; background: var(--cream); padding: 60px 0; text-align: center; }
+.notify .inner { position: relative; z-index: 1; }
+.notify-img { position: absolute; pointer-events: none; }
+/* 블루베리 피즈: 윗부분이 섹션 위로 튀어나옴 */
+.notify-fizz { right: 30%; top: -70px; width: 130px; }
+/* 라떼: 아랫부분이 아래 푸터에 가려짐 */
+.notify-latte { left: 28%; bottom: -80px; width: 210px; }
+.footer { position: relative; z-index: 1; }
+@media (max-width: 960px) { .notify-img { display: none; } }
 .notify h2 { font-family: var(--font-title); font-size: 24px; font-weight: 700; }
 .notify p { font-size: 16px; margin: 8px 0 28px; opacity: .8; }
 .notify .btn { border: 0; padding: 16px 40px; font-family: var(--font-title); font-weight: 400; font-size: 26px; background: var(--board); color: var(--white); }
 .notify .btn[aria-pressed="true"] { background: var(--brown); }
+.notify h2 { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.notify-bell { flex: none; color: var(--board); }
+/* 버튼 클릭 시 텍스트가 교체되므로 포인터는 버튼 바깥 래퍼에 둠 */
+.notify-action { position: relative; display: inline-block; }
+.notify-cursor { position: absolute; right: -14px; bottom: -18px; pointer-events: none; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .25)); transform-origin: 21% 12%; animation: cursor-click 4s infinite; }
+/* 포인터가 오른쪽에서 들어와 버튼 위에서 딸깍(45~55%) → 같은 타이밍에 버튼이 순간적으로 진해졌다 복귀 */
+.notify .btn[aria-pressed="false"] { animation: btn-click 4s infinite; }
+.notify .btn[aria-pressed="true"] + .notify-cursor { display: none; }
+@keyframes cursor-click {
+  0%   { opacity: 0; transform: translate(140px, 50px); }
+  8%   { opacity: 1; }
+  42%  { opacity: 1; transform: translate(0, 0); animation-timing-function: ease-out; }
+  47%  { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-2px, -2px) scale(.85); }
+  56%  { transform: translate(0, 0) scale(1); }
+  85%  { opacity: 1; transform: translate(0, 0); }
+  100% { opacity: 0; transform: translate(0, 0); }
+}
+@keyframes btn-click {
+  0%, 46% { background: var(--board); }
+  50% { background: #1b2e24; }
+  56%, 100% { background: var(--board); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notify-cursor, .notify .btn[aria-pressed="false"] { animation: none; }
+}
 
 /* ===== 푸터 ===== */
 .footer { background: var(--brown); color: var(--cream); padding: 60px 0 40px; }
@@ -248,14 +342,20 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 /* ===== 반응형 ===== */
 @media (max-width: 960px) {
   .hero h1 { font-size: 28px; }
+  /* 모바일/태블릿: 텍스트 위, 이미지 그룹 아래, 텍스트 중앙 정렬 */
+  .hero { height: auto; flex-direction: column; }
+  .hero .inner { text-align: center; }
+  .hero-main { flex-direction: column; justify-content: center; gap: 32px; margin-bottom: 32px; }
+  .hero-text { max-width: none; }
+  .hero-ellipse { width: 360px; }
+  .hero-latte { width: 240px; }
   .pop { grid-template-columns: 1fr; gap: 40px; }
   .pop-center { order: -1; }
   .pop-img { width: 100%; max-width: 360px; margin: 40px auto 0; }
   .pop-left { text-align: left; }
   .pop-left li { flex-direction: row; }
   .recipes { flex-direction: column; }
-  .mini-list { flex-wrap: wrap; }
-  .mini { flex: 1 1 calc(50% - 10px); }
+  .mini { width: 280px; }
 }
 @media (max-width: 600px) {
   .header .inner { height: 64px; }
@@ -275,18 +375,15 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .intro-step:not(:last-child)::after { top: auto; bottom: -6px; left: 24px; right: 24px; width: auto; height: 1px; }
   .sec-head { flex-direction: column; align-items: flex-start; }
   .sec-title { font-size: 28px; }
-  /* 테마 슬라이더는 모바일에서도 3열 유지 */
-  .slider { gap: 8px; }
-  .theme { flex-basis: calc((100% - 16px) / 3); min-height: 200px; }
+  /* 테마 슬라이더는 모바일에서도 3열 유지 (Swiper 옵션에서 처리) */
+  .theme { min-height: 200px; }
   .theme .ph { padding: 12px; }
   .theme b { font-size: 18px; }
   /* 신규 레시피: 이미지 위 / 텍스트 아래 */
   .card { flex-direction: column; }
   .card .ph { flex: none; height: 220px; min-height: 0; }
   .card-body { padding: 20px; }
-  /* 이런 레시피도 있어요: 1열, 2개만 표시 */
-  .mini-list { flex-direction: column; flex-wrap: nowrap; gap: 12px; }
-  .mini { flex: none; width: 100%; }
-  .mini:nth-child(n+3) { display: none; }
+  /* 이런 레시피도 있어요: 슬라이드 폭만 축소 */
+  .mini { width: 220px; height: 140px; }
   .footer .inner { flex-direction: column; }
 }

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>home cafe. — 집에서 만드는 카페 음료</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -33,11 +34,19 @@
 <main>
   <!-- 히어로 -->
   <section class="hero" id="search">
-    <div class="hero-bg"><video src="img/social_trailer_choco_latte_--ar_9151_--motion_low_--video_1_61d6d53f-3407-4ef5-99b5-57c5c278d0bc_1.mp4" autoplay muted loop playsinline aria-label="초코 라떼 영상"></video></div>
+    <div class="hero-bg"></div>
+    <img class="hero-choco-bg" src="img/hero-choco2.png" alt="" aria-hidden="true">
+    <img class="hero-choco-fx" src="img/hero-choco1.png" alt="" aria-hidden="true">
     <div class="inner">
-      <div class="hero-text">
-        <h1>집에서 만드는 카페 음료 레시피,<br><em>home cafe.</em></h1>
-        <p>원하는 음료를 검색하고 재료부터 만드는 순서까지 한눈에 확인하세요.</p>
+      <div class="hero-main">
+        <div class="hero-text">
+          <h1><span class="hero-line">집에서 만드는 카페 음료 레시피,</span><br><em>home cafe.</em></h1>
+          <p>원하는 음료를 검색하고 재료부터 만드는 순서까지 한눈에 확인하세요.</p>
+        </div>
+        <div class="hero-visual">
+          <svg class="hero-ellipse" viewBox="0 0 560 457" aria-hidden="true"><circle cx="280" cy="280" r="280"/></svg>
+          <img class="hero-latte" src="img/hero-choco_latte.png" alt="초코 라떼">
+        </div>
       </div>
       <div class="hero-bottom">
         <form class="search" role="search" onsubmit="return false">
@@ -118,6 +127,8 @@
 
   <!-- 테마별 추천 -->
   <section class="sec theme-bg">
+    <div class="theme-bg-layer" aria-hidden="true"></div>
+    <div class="theme-bg-layer" aria-hidden="true"></div>
     <div class="inner">
       <div class="sec-head">
         <div>
@@ -125,15 +136,59 @@
           <h2 class="sec-title">테마별 추천</h2>
         </div>
       </div>
-      <div class="slider" id="theme-slider" tabindex="0" aria-label="테마별 추천 슬라이더">
-        <a href="#" class="theme t1"><div class="ph"><b>달콤</b><small>음료 <strong>24</strong>개</small></div></a>
-        <a href="#" class="theme t2"><div class="ph"><b>상큼</b><small>음료 <strong>18</strong>개</small></div></a>
-        <a href="#" class="theme t3"><div class="ph"><b>디카페인</b><small>음료 <strong>15</strong>개</small></div></a>
-        <a href="#" class="theme t4"><div class="ph"><b>따뜻한</b><small>음료 <strong>21</strong>개</small></div></a>
-        <a href="#" class="theme t5"><div class="ph"><b>티</b><small>음료 <strong>12</strong>개</small></div></a>
-        <a href="#" class="theme t6"><div class="ph"><b>시원한</b><small>음료 <strong>30</strong>개</small></div></a>
+      <div class="swiper theme-swiper" aria-label="테마별 추천 슬라이더">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <a href="#" class="theme t1" data-bg="img/theme-sweet.png">
+              <div class="ph">
+                <b>달콤</b>
+                <small>음료 <strong>24</strong>개</small>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="theme t2" data-bg="img/theme-fresh.png">
+              <div class="ph">
+                <b>상큼</b>
+                <small>음료 <strong>18</strong>개</small>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="theme t3" data-bg="img/theme-decaf.png">
+              <div class="ph">
+                <b>디카페인</b>
+                <small>음료 <strong>15</strong>개</small>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="theme t4" data-bg="img/theme-hot.png">
+              <div class="ph">
+                <b>따뜻한</b>
+                <small>음료 <strong>21</strong>개</small>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="theme t5" data-bg="img/theme-tea.png">
+              <div class="ph">
+                <b>티</b>
+                <small>음료 <strong>12</strong>개</small>
+              </div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="#" class="theme t6" data-bg="img/theme-ice.png">
+              <div class="ph">
+                <b>시원한</b>
+                <small>음료 <strong>30</strong>개</small>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
       </div>
-      <div class="dots" id="theme-dots" role="group" aria-label="슬라이더 페이지"></div>
     </div>
   </section>
 
@@ -168,24 +223,45 @@
           </div>
         </a>
       </div>
+    </div>
 
-      <!-- 신규 레시피 하위 영역 -->
-      <h3 class="sub-title">이런 레시피도 있어요</h3>
-      <div class="mini-list">
-        <a href="#" class="mini"><b>바닐라 라떼</b><small>난이도 하 · 5분</small></a>
-        <a href="#" class="mini"><b>망고 스무디</b><small>난이도 중 · 10분</small></a>
-        <a href="#" class="mini"><b>아인슈페너</b><small>난이도 중 · 10분</small></a>
-        <a href="#" class="mini"><b>얼그레이 티</b><small>난이도 하 · 5분</small></a>
+    <!-- 신규 레시피 하위 영역: .inner 바깥이라 화면 끝까지 흐름 (제목만 .inner로 정렬) -->
+    <div class="recent-more">
+      <div class="inner"><h3 class="sub-title">이런 레시피도 있어요</h3></div>
+      <div class="swiper mini-list" aria-label="이런 레시피도 있어요 슬라이더">
+          <div class="swiper-wrapper">
+            <a href="#" class="swiper-slide mini mini--vanilla"><b>바닐라 라떼</b><small>난이도 하 · 5분</small></a>
+            <a href="#" class="swiper-slide mini mini--mango"><b>망고 스무디</b><small>난이도 중 · 10분</small></a>
+            <a href="#" class="swiper-slide mini mini--einspanner"><b>아인슈페너</b><small>난이도 중 · 10분</small></a>
+            <a href="#" class="swiper-slide mini mini--earlgrey"><b>얼그레이 티</b><small>난이도 하 · 5분</small></a>
+            <a href="#" class="swiper-slide mini mini--sesame"><b>흑임자 라떼</b><small>난이도 하 · 5분</small></a>
+            <a href="#" class="swiper-slide mini mini--grapefruit"><b>자몽 에이드</b><small>난이도 중 · 10분</small></a>
+            <a href="#" class="swiper-slide mini mini--strawberry"><b>딸기 라떼</b><small>난이도 하 · 5분</small></a>
+            <a href="#" class="swiper-slide mini mini--blueberry"><b>블루베리 에이드</b><small>난이도 중 · 10분</small></a>
+          </div>
       </div>
     </div>
   </section>
 
   <!-- 알림받기 -->
   <section class="notify">
+    <img class="notify-img notify-latte" src="img/latte.png" alt="">
+    <img class="notify-img notify-fizz" src="img/blueberry-fizz.png" alt="">
     <div class="inner">
-      <h2>새 레시피가 올라오면 알려드릴게요</h2>
+      <h2>
+        <svg class="notify-bell" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2a1.5 1.5 0 0 0-1.5 1.5v.7C7.6 5 6 7.5 6 10.5v3.6l-1.7 2.4A1 1 0 0 0 5.1 18h13.8a1 1 0 0 0 .8-1.5L18 14.1v-3.6c0-3-1.6-5.5-4.5-6.3v-.7A1.5 1.5 0 0 0 12 2z"/>
+          <path d="M9.5 19.5a2.5 2.5 0 0 0 5 0z"/>
+        </svg>
+        새 레시피가 올라오면 알려드릴게요
+      </h2>
       <p>신규 레시피가 추가되면 가장 먼저 만나보세요.</p>
-      <button type="button" class="btn btn-brown" id="notify-btn" aria-pressed="false">신규 레시피 추가 시 알림받기</button>
+      <div class="notify-action">
+        <button type="button" class="btn btn-brown" id="notify-btn" aria-pressed="false">신규 레시피 추가 시 알림받기</button>
+        <svg class="notify-cursor" width="52" height="52" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 3l14 8-6 1.5L10 19z" fill="#fff" stroke="#000" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
     </div>
   </section>
 </main>
@@ -210,6 +286,7 @@
   <div class="inner"><p class="copy">© 2026 home cafe. All rights reserved.</p></div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
